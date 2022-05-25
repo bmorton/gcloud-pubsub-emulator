@@ -9,7 +9,7 @@ RUN go install github.com/prep/pubsubc@latest
 
 ###############################################################################
 
-FROM google/cloud-sdk:alpine
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
 
 COPY --from=builder /usr/bin/wait-for /usr/bin
 COPY --from=builder /go/bin/pubsubc   /usr/bin
