@@ -1,4 +1,4 @@
-FROM golang:alpine as builder
+FROM golang:1.18.2-alpine3.16 as builder
 
 RUN apk update && apk upgrade && apk add --no-cache curl git
 
@@ -9,7 +9,7 @@ RUN go install github.com/prep/pubsubc@latest
 
 ###############################################################################
 
-FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:387.0.0-alpine
 
 COPY --from=builder /usr/bin/wait-for /usr/bin
 COPY --from=builder /go/bin/pubsubc   /usr/bin
