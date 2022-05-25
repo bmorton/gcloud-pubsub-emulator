@@ -27,4 +27,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: bmorton/gcloud-pubsub-emulator:latest
+          tags: bmorton/gcloud-pubsub-emulator:${{ github.sha }}
