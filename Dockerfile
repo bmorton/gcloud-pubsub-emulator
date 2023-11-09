@@ -1,4 +1,4 @@
-FROM golang:1.20.4-alpine3.16 as builder
+FROM golang:1.21.4-alpine as builder
 
 RUN apk update && apk upgrade && apk add --no-cache curl git
 
@@ -9,13 +9,14 @@ RUN go install github.com/prep/pubsubc@latest
 
 ###############################################################################
 
-FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:428.0.0-alpine
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:454.0.0-alpine
 
 COPY --from=builder /usr/bin/wait-for /usr/bin
 COPY --from=builder /go/bin/pubsubc   /usr/bin
 COPY                run.sh            /run.sh
 
-RUN apk --update add openjdk8-jre netcat-openbsd && gcloud components install beta pubsub-emulator
+ENV LD_PRELOAD=/lib/libgcompat.so.0
+RUN apk --update add openjdk8-jre netcat-openbsd gcompat && gcloud components install beta pubsub-emulator
 
 EXPOSE 8681
 
