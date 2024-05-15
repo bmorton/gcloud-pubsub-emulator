@@ -16,4 +16,6 @@ ENV PUBSUB_EMULATOR_HOST=localhost:8681
 
 COPY --from=builder /go/bin/gcloud-pubsub-emulator /usr/bin
 
+HEALTHCHECK --interval=5s CMD gcloud-pubsub-emulator isup
+
 ENTRYPOINT ["gcloud-pubsub-emulator"]

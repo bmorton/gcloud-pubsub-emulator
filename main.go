@@ -12,6 +12,17 @@ import (
 )
 
 func main() {
+	if len(os.Args) > 1 {
+		if os.Args[1] == "isup" {
+			if err := waitFor(context.Background(), readyPort, 1*time.Second); err != nil {
+				log.Printf("not ready")
+				os.Exit(1)
+			} else {
+				log.Printf("ready")
+				os.Exit(0)
+			}
+		}
+	}
 	if err := run(); err != nil {
 		panic(err)
 	}
